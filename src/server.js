@@ -27,7 +27,8 @@ app.use(errorHandler);
 
 const allowedOrigins = [
   "http://localhost:5173",
-  "http://localhost:5000"
+  "http://localhost:5000",
+  "https://student-dashboard-uah3.onrender.com"
 ];
 
 app.use(
