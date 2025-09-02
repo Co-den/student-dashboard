@@ -1,0 +1,29 @@
+{
+  "name": "flexliving-server",
+  "version": "1.0.0",
+  "main": "src/server.js",
+  "scripts": {
+    "start": "node src/server.js",
+    "dev": "nodemon src/server.js",
+    "seed": "node src/scripts/seed.js",
+    "build": "echo 'No build step required'"
+  },
+  "dependencies": {
+    "axios": "^1.4.0",
+    "bcrypt": "^6.0.0",
+    "cors": "^2.8.5",
+    "dotenv": "^16.0.0",
+    "express": "^4.18.2",
+    "express-rate-limit": "^8.0.1",
+    "googleapis": "^156.0.0",
+    "jsonwebtoken": "^9.0.2",
+    "mongodb": "^6.18.0",
+    "mongoose": "^8.17.2",
+    "nodemailer": "^7.0.5",
+    "seed": "^0.4.4",
+    "zod": "^4.0.17"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.0"
+  }
+}
