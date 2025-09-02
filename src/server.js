@@ -24,19 +24,23 @@ const app = express();
 app.use(rateLimiter);
 app.use(notFound);
 app.use(errorHandler);
-
 const allowedOrigins = [
-  "http://localhost:5173",
-  "http://localhost:5000",
-  "https://student-dashboard-uah3.onrender.com"
+  'http://localhost:5173',
+  'https://student-dashboard-uah3.onrender.com'
 ];
 
-app.use(
-  cors({
-    origin: allowedOrigins,
-    credentials: true
-  })
-);
+app.use(cors({
+  origin: (origin, callback) => {
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
+  credentials: true
+}));
+
+app.options('*', cors()); // Handle preflight requests
 
 app.use(express.json());
 
