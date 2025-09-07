@@ -1,8 +1,8 @@
-import User from "../models/User.js";
-import bcrypt from "bcryptjs";
-import jwt from "jsonwebtoken";
+const User = require("../models/User.js");
+const bcrypt = require("bcryptjs");
+const jwt = require("jsonwebtoken");
 
-export const register = async (req, res) => {
+exports.register = async (req, res) => {
   try {
     const { firstname, lastname, regNumber, email, password } = req.body;
 
@@ -48,7 +48,7 @@ export const register = async (req, res) => {
   }
 };
 
-export const login = async (req, res) => {
+exports.login = async (req, res) => {
   try {
     const { email, password } = req.body;
 
@@ -79,7 +79,7 @@ export const login = async (req, res) => {
   }
 };
 
-export const getProfile = async (req, res) => {
+exports.getProfile = async (req, res) => {
   try {
     const user = await User.findById(req.user.id).select("-password");
     if (!user) return res.status(404).json({ msg: "User not found" });
@@ -107,7 +107,7 @@ export const updateProfile = async (req, res) => {
     res.status(500).json({ msg: "Server error" });
   }
 };
-export const deleteProfile = async (req, res) => {
+exports.deleteProfile = async (req, res) => {
   try {
     const user = await User.findByIdAndDelete(req.user.id);
     if (!user) return res.status(404).json({ msg: "User not found" });
