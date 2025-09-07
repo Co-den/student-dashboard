@@ -29,7 +29,9 @@ app.use(errorHandler);
 
 const allowedOrigins = [
   'http://localhost:5173',
-  'https://student-dashboard-uah3.onrender.com'
+  'https://student-dashboard-uah3.onrender.com',
+  'https://student-dashboard-frontend-snowy.vercel.app'
+
 ];
 
 app.use(cors({
