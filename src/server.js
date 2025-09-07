@@ -12,6 +12,7 @@ const timetableRoutes = require("./routes/timetableRoutes");
 const messageRoutes = require("./routes/messageRoutes");
 const feesRoutes = require("./routes/feesRoutes");
 const courseRoutes = require("./routes/coursesRoutes");
+const authRoutes = require("./routes/authRoute");
 
 //MIDDLEWARES
 const errorHandler = require('./middleware/errorHandler');
@@ -24,6 +25,8 @@ const app = express();
 app.use(rateLimiter);
 app.use(notFound);
 app.use(errorHandler);
+
+
 const allowedOrigins = [
   'http://localhost:5173',
   'https://student-dashboard-uah3.onrender.com'
@@ -53,6 +56,7 @@ app.use("/api/timetables", timetableRoutes);
 app.use("/api/messages", messageRoutes);
 app.use("/api/fees", feesRoutes);
 app.use("/api/courses", courseRoutes);
+app.use("/api/auth", authRoutes);
 
 // request logger (light)
 app.use((req, res, next) => {
