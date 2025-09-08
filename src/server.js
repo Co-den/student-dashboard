@@ -26,7 +26,7 @@ app.use(rateLimiter);
 app.use(notFound);
 app.use(errorHandler);
 
-
+// CORS configuration
 const allowedOrigins = [
   'http://localhost:5173',
   'https://student-dashboard-uah3.onrender.com',
@@ -34,23 +34,21 @@ const allowedOrigins = [
 
 ];
 
+// CORS middleware
 app.use(cors({
-  origin: (origin, callback) => {
-    if (!origin || allowedOrigins.includes(origin)) {
-      callback(null, true);
-    } else {
-      callback(new Error('Not allowed by CORS'));
-    }
-  },
+  origin: allowedOrigins,
   credentials: true
 }));
 
-app.options('*', cors()); // Handle preflight requests
+// Handle preflight requests
+app.options('*', cors());
 
 app.use(express.json());
 
+// HEALTH CHECK
 app.get("/_health", (req, res) => res.json({ ok: true }));
 
+// MOUNTED ROUTES
 app.use("/api/announcements", announcementRoutes);
 app.use("/api/assignments", assignmentRoutes);
 app.use("/api/grades", gradeRoutes);
@@ -73,6 +71,7 @@ app.use((req, res, next) => {
 // serve static if needed later
 const PORT = process.env.PORT || 5000;
 
+//DB CONNECTION
 mongoose
   .connect(process.env.MONGO_URI)
   .then(() => {
