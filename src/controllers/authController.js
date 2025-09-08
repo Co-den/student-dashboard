@@ -48,6 +48,7 @@ exports.register = async (req, res) => {
   }
 };
 
+
 exports.login = async (req, res) => {
   try {
     const { email, password } = req.body;
@@ -79,6 +80,8 @@ exports.login = async (req, res) => {
   }
 };
 
+
+
 exports.getProfile = async (req, res) => {
   try {
     const user = await User.findById(req.user.id).select("-password");
@@ -90,7 +93,8 @@ exports.getProfile = async (req, res) => {
   }
 };
 
-export const updateProfile = async (req, res) => {
+
+exports.updateProfile = async (req, res) => {
   try {
     const { firstname, lastname, regNumber, email, password } = req.body;
 
@@ -107,6 +111,8 @@ export const updateProfile = async (req, res) => {
     res.status(500).json({ msg: "Server error" });
   }
 };
+
+
 exports.deleteProfile = async (req, res) => {
   try {
     const user = await User.findByIdAndDelete(req.user.id);
