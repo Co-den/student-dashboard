@@ -26,23 +26,26 @@ app.use(rateLimiter);
 app.use(notFound);
 app.use(errorHandler);
 
-// CORS configuration
 const allowedOrigins = [
-  'http://localhost:5173',
   'https://student-dashboard-uah3.onrender.com',
-   'https://student-dashboard-uah3.onrender.com/api/auth',
   'https://student-dashboard-frontend-snowy.vercel.app'
-
 ];
 
-// CORS middleware
 app.use(cors({
-  origin: allowedOrigins,
+  origin: function (origin, callback) {
+    // Allow requests with no origin (like mobile apps or curl)
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error("Not allowed by CORS"));
+    }
+  },
   credentials: true
 }));
 
-// Handle preflight requests
-app.options('*', cors());
+// Handle preflight
+app.options("*", cors());
+
 
 app.use(express.json());
 
