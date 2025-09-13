@@ -51,7 +51,6 @@ exports.register = async (req, res) => {
   }
 };
 
-
 exports.login = async (req, res) => {
   try {
     const { email, password } = req.body;
@@ -83,8 +82,6 @@ exports.login = async (req, res) => {
   }
 };
 
-
-
 exports.getProfile = async (req, res) => {
   try {
     const user = await User.findById(req.user.id).select("-password");
@@ -95,7 +92,6 @@ exports.getProfile = async (req, res) => {
     res.status(500).json({ msg: "Server error" });
   }
 };
-
 
 exports.updateProfile = async (req, res) => {
   try {
@@ -114,7 +110,6 @@ exports.updateProfile = async (req, res) => {
     res.status(500).json({ msg: "Server error" });
   }
 };
-
 
 exports.deleteProfile = async (req, res) => {
   try {
