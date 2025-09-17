@@ -53,6 +53,7 @@ exports.register = async (req, res) => {
 exports.login = async (req, res) => {
   try {
     const { email, password } = req.body;
+    console.log("Login request body:", req.body);
 
     // check if user exists
     const user = await User.findOne({ email });
@@ -61,11 +62,18 @@ exports.login = async (req, res) => {
     }
 
     // generate token
-    const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET, {
+    const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, {
       expiresIn: "7d",
     });
 
-    res.json({ token });
+    res.json({
+      _id: user._id,
+      firstname: user.firstname,
+      lastname: user.lastname,
+      regNumber: user.regNumber,
+      email: user.email,
+      token,
+    });
   } catch (error) {
     console.error(error);
     res.status(500).json({ msg: "Server error" });
