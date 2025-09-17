@@ -2,7 +2,6 @@ const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const User = require("../models/User");
 const dotenv = require("dotenv");
-
 dotenv.config({ path: ".env" });
 
 exports.register = async (req, res) => {
@@ -57,65 +56,16 @@ exports.login = async (req, res) => {
 
     // check if user exists
     const user = await User.findOne({ email });
-    if (!user) return res.status(400).json({ msg: "Invalid credentials" });
-
-    // compare password
-    const isMatch = await bcrypt.compare(password, user.password);
-    if (!isMatch) return res.status(400).json({ msg: "Invalid credentials" });
+    if (!user || !(await bcrypt.compare(password, user.password))) {
+      return res.status(400).json({ msg: "Invalid credentials" });
+    }
 
     // generate token
-    const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, {
+    const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET, {
       expiresIn: "7d",
     });
 
-    res.json({
-      _id: user._id,
-      firstname: user.firstname,
-      lastname: user.lastname,
-      regNumber: user.regNumber,
-      email: user.email,
-      token,
-    });
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ msg: "Server error" });
-  }
-};
-
-exports.getProfile = async (req, res) => {
-  try {
-    const user = await User.findById(req.user.id).select("-password");
-    if (!user) return res.status(404).json({ msg: "User not found" });
-    res.json(user);
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ msg: "Server error" });
-  }
-};
-
-exports.updateProfile = async (req, res) => {
-  try {
-    const { firstname, lastname, regNumber, email, password } = req.body;
-
-    // find user and update
-    const user = await User.findByIdAndUpdate(
-      req.user.id,
-      { firstname, lastname, regNumber, email, password },
-      { new: true }
-    ).select("-password");
-    if (!user) return res.status(404).json({ msg: "User not found" });
-    res.json(user);
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ msg: "Server error" });
-  }
-};
-
-exports.deleteProfile = async (req, res) => {
-  try {
-    const user = await User.findByIdAndDelete(req.user.id);
-    if (!user) return res.status(404).json({ msg: "User not found" });
-    res.json({ msg: "User deleted" });
+    res.json({ token });
   } catch (error) {
     console.error(error);
     res.status(500).json({ msg: "Server error" });

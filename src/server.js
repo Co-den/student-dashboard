@@ -13,6 +13,7 @@ const messageRoutes = require("./routes/messageRoutes");
 const feesRoutes = require("./routes/feesRoutes");
 const courseRoutes = require("./routes/coursesRoutes");
 const authRoutes = require("./routes/authRoute");
+const userRoutes = require("./routes/userRoutes");
 
 // Middlewares
 const errorHandler = require("./middleware/errorHandler");
@@ -62,6 +63,7 @@ app.use("/api/messages", messageRoutes);
 app.use("/api/fees", feesRoutes);
 app.use("/api/courses", courseRoutes);
 app.use("/api/auth", authRoutes);
+app.use("/api/users", userRoutes);
 
 // Request logger
 app.use((req, res, next) => {
